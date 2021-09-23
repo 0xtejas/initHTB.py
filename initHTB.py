@@ -32,7 +32,7 @@ class initHTB:
         try:
             path = os.path.join(self.parent_directory,self.directory)
             os.mkdir(path)
-            print("[+] Directory '% s' created" % self.directory)
+            print(terminalColors.OKGREEN + "[+] Directory '% s' created" % self.directory + terminalColors.ENDC)
 
         except OSError:
             print(terminalColors.FAIL + "[-] Directory '% s' already exists" % self.directory + terminalColors.ENDC)
