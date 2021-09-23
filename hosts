@@ -1,0 +1,11 @@
+127.0.0.1	localhost
+127.0.1.1	ToxicBiohazard # your system name
+10.10.10.228    breadcrumbs.htb binary.htb
+
+
+# NOTE THERE SHUD BE GAP Between between this and the above lines, You'll have to chown this file to your user 
+# The following lines are desirable for IPv6 capable hosts
+::1     localhost ip6-localhost ip6-loopback
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+

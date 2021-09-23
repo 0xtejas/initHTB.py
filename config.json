@@ -1,0 +1,17 @@
+{
+    "parent_directory": "/home/\"$USER\"/Desktop/HTB/BOX",
+    "terminal": "Default",
+    "tmux":"True",
+    "nmap": {
+       "mode": {
+        "1":"nmap -sC -sV -vv -p- $IP -oN nmap.txt", 
+        "2":"nmap -sC -sV -vv $IP -oN nmap.txt"
+        }
+    },
+    "directory_scan": {
+        "Tool Name": "feroxbuster",
+        "mode": {
+            "1":"feroxbuster -u $URL -w /usr/share/seclists/Discovery/Web-Content/raft-small-words-lowercase.txt -x php,html,css,js  -s 200"
+        }
+    }
+}
