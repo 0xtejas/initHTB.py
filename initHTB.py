@@ -4,40 +4,42 @@ import os
 import subprocess
 import json
 
+class initHTB:
+    def __init__(self, config):
+        self.config = config
+        self.tmux = self.config['tmux']
+        self.terminal = self.config['terminal']
+        self.parent_directory = self.config['parent_directory'].replace('\"$USER\"', os.environ['USER'])
+        
+        self.directory=input("Enter the Machine Name: ")
+        self.ip=input("Enter the IP: ")
+    
+    def initialize(self):
+        try:
+            path = os.path.join(self.parent_directory,self.directory)
+            os.mkdir(path)
+            print("[+] Directory '% s' created" % self.directory)
 
-
-
-
-with open('config.json', 'r') as f:
-    config = json.load(f)
-    parent_dir = config['parent_directory'].replace('\"$USER\"', os.environ['USER'])
+        except OSError:
+            print("[-] Directory '% s' already exists" % self.directory)
     
 
+        with open('/etc/hosts','r') as file:
+            content = file.read()
 
-directory=input("Enter the Machine Name: ")
-ip=input("Enter the IP: ")
+            new_content = content.replace("\n\n",f"\n{self.ip}    {self.directory.lower()}.htb\n\n",1)
+        try:
+            with open('/etc/hosts','w') as file:
+                file.write(new_content)
 
-path = os.path.join(parent_dir,directory)
-os.mkdir(path)
-print("[+] Directory '% s' created" % directory)
+            print(f"[+] IP: {self.ip} and HOST: {self.directory.lower()}.htb is added to the file!")
+        except:
+            print("[-] Error while writing to file")
+            print("[-] Please check the file permissions")
 
-print("[+] Adding host to host file")
+if __name__ == "__main__":
+    with open('config.json','r') as f:
+        object = initHTB(json.load(f))
+        object.initialize()
 
-with open('/etc/hosts','r') as file:
-    content = file.read()
-
-
-new_content = content.replace("\n\n",f"\n{ip}    {directory.lower()}.htb\n\n",1)
-
-with open('/etc/hosts','w') as file:
-    file.write(new_content)
-
-print(f"[+] IP:{ip} and HOST:{directory.lower()}.htb is added to the file!")
-
-
-
-
-
-
-
-
+        
