@@ -13,9 +13,7 @@ Please fork, contribute and make a pull request. If you have any issues with thi
 
 # TODO
 
-1. Convert the existing code to class based
-2. Use error handling 
-3. Open new default terminal unless specified the terminal name in the `config.json`. 
+1. Open new default terminal unless specified the terminal name in the `config.json`. 
     
     - If `config.json` has `tmux` set `True` then open the terminal in the `parent_directory` with tmux.
     and run `openvpn` in `window 1`. 
