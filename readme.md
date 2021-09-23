@@ -1,7 +1,9 @@
 # initHTB.py
+
 This script helps us to add IP, host name entry in hosts file and create directory and much more features coming up!
 
 # SETTING UP
+
 1. You'll have to run this if you are not a root user `sudo chown $USER /etc/hosts`.
 2. There is a template `hosts` file along with this, **please maintain the structure**.
 
@@ -9,6 +11,7 @@ This script helps us to add IP, host name entry in hosts file and create directo
 
 Please fork, contribute and make a pull request. If you have any issues with this project, please feel free to create issue.
 
+# TODO
 
 1. Convert the existing code to class based
 2. Use error handling 
