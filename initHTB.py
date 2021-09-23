@@ -8,8 +8,8 @@ import json
 class terminalColors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
-    OKCYAN = '\033[96m'
-    OKGREEN = '\033[92m'
+    INFO = '\033[96m'
+    SUCESS = '\033[92m'
     WARNING = '\033[93m'
     FAIL = '\033[91m'
     ENDC = '\033[0m'
@@ -23,7 +23,7 @@ class initHTB:
         self.config = config
         self.tmux = self.config['tmux']
         self.terminal = self.config['terminal']
-        self.parent_directory = self.config['parent_directory'].replace('\"$USER\"', os.environ['USER'])
+        self.parent_directory = self.config['parent_directory'].replace('\"$USER\"', 'kali')
         
         self.directory=input("Enter the Machine Name: ")
         self.ip=input("Enter the IP: ")
@@ -32,7 +32,7 @@ class initHTB:
         try:
             path = os.path.join(self.parent_directory,self.directory)
             os.mkdir(path)
-            print(terminalColors.OKGREEN + "[+] Directory '% s' created" % self.directory + terminalColors.ENDC)
+            print(terminalColors.SUCESS + "[+] Directory '% s' created" % self.directory + terminalColors.ENDC)
 
         except OSError:
             print(terminalColors.FAIL + "[-] Directory '% s' already exists" % self.directory + terminalColors.ENDC)
@@ -46,10 +46,11 @@ class initHTB:
             with open('/etc/hosts','w') as file:
                 file.write(new_content)
 
-            print(terminalColors.OKGREEN + f"[+] IP: {self.ip} and HOST: {self.directory.lower()}.htb is added to the file!" + terminalColors.ENDC)
+            print(terminalColors.SUCESS + f"[+] IP: {self.ip} and HOST: {self.directory.lower()}.htb is added to the file!" + terminalColors.ENDC)
         except:
             print(terminalColors.FAIL + "[-] Error while writing to file" + terminalColors.ENDC)
             print(terminalColors.FAIL + "[-] Please check the file permissions" + terminalColors.ENDC)
+            print(terminalColors.INFO + "[*] try running sudo chown % s /etc/hosts and then run this script" %os.environ['USER'] + terminalColors.ENDC)
 
 if __name__ == "__main__":
     with open('config.json','r') as f:
