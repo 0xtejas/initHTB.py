@@ -4,6 +4,20 @@ import os
 import subprocess
 import json
 
+# TERMINAL COLORS - CODE FROM https://stackoverflow.com/a/287944/11561065
+class terminalColors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+
+
 class initHTB:
     def __init__(self, config):
         self.config = config
@@ -21,7 +35,7 @@ class initHTB:
             print("[+] Directory '% s' created" % self.directory)
 
         except OSError:
-            print("[-] Directory '% s' already exists" % self.directory)
+            print(terminalColors.FAIL + "[-] Directory '% s' already exists" % self.directory + terminalColors.ENDC)
     
 
         with open('/etc/hosts','r') as file:
@@ -32,10 +46,10 @@ class initHTB:
             with open('/etc/hosts','w') as file:
                 file.write(new_content)
 
-            print(f"[+] IP: {self.ip} and HOST: {self.directory.lower()}.htb is added to the file!")
+            print(terminalColors.OKGREEN + f"[+] IP: {self.ip} and HOST: {self.directory.lower()}.htb is added to the file!" + terminalColors.ENDC)
         except:
-            print("[-] Error while writing to file")
-            print("[-] Please check the file permissions")
+            print(terminalColors.FAIL + "[-] Error while writing to file" + terminalColors.ENDC)
+            print(terminalColors.FAIL + "[-] Please check the file permissions" + terminalColors.ENDC)
 
 if __name__ == "__main__":
     with open('config.json','r') as f:
