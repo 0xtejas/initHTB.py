@@ -2,6 +2,7 @@
 
 import argparse,json,os
 import libtmux
+import getpass
 
 # TERMINAL COLORS - CODE FROM https://stackoverflow.com/a/287944/11561065
 class terminalColors:
@@ -74,12 +75,14 @@ class initHTB:
             window = session.select_window(0)
             pane = window.select_pane(0)
             pane.send_keys(f"sudo openvpn ~/Downloads/lab_TheWeeknd.ovpn", enter=True)
+            print("Enter the password for SUDO")
+            p = getpass.getpass()
+            pane.send_keys(p, enter=True ,suppress_history=False)
             print(terminalColors.SUCESS + "[+] OPENVPN CONNECTED" + terminalColors.ENDC)
+            pane.window.session.attach_session()
             
-            # pane = window.attached_panes()[0]
-            # pane.send_keys(f"cd {self.parent_directory}/{self.VHOST}")
-            # pane.send_keys('sudo openvpn ~/Downloads/lab_TheWeeknd.ovpn')
-
+           
+            
 
             print(terminalColors.SUCESS + "[+] Terminal shell created!" + terminalColors.ENDC)
         except Exception as e:
@@ -117,5 +120,5 @@ if __name__ == "__main__":
             config = json.load(file)
         initHTB = initHTB(config,args.ip,args.name)
         initHTB.initialize()
-        # initHTB.create_terminal_shell()
+        initHTB.create_terminal_shell()
      
