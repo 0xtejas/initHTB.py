@@ -3,6 +3,7 @@
 import os
 import subprocess
 import json
+import sys 
 
 # TERMINAL COLORS - CODE FROM https://stackoverflow.com/a/287944/11561065
 class terminalColors:
@@ -52,9 +53,60 @@ class initHTB:
             print(terminalColors.FAIL + "[-] Please check the file permissions" + terminalColors.ENDC)
             print(terminalColors.INFO + "[*] try running sudo chown % s /etc/hosts and then run this script" %os.environ['USER'] + terminalColors.ENDC)
 
+    def create_directory(self):
+        try:
+            path = os.path.join(self.parent_directory,self.directory)
+            os.makedirs(path)
+            print(terminalColors.SUCESS + "[+] Hirearchy Created as per config.json" % self.directory + terminalColors.ENDC)
+            print(terminalColors.SUCESS + "[+] Directory '% s' created" % self.directory + terminalColors.ENDC)
+        except OSError:
+            print(terminalColors.FAIL + OSError + terminalColors.ENDC)
+
+def help():
+    print(terminalColors.INFO + """ 
+PRINTS THIS HELP MENU
+
+USAGE: python3 initHTB.py -i <IP> -d <VHOST>
+    -i <IP> : IP of the VHOST
+    -d <VHOST> : VHOST NAME
+    -h : Prints this help menu
+    -I : Initialize the initHTB.py script 
+         Creates a directory for HTB if it doesn't exist, as per default configurations.
+         To change the configurations, edit the config.json file    
+    """ + terminalColors.ENDC)
+
+
 if __name__ == "__main__":
-    with open('config.json','r') as f:
-        object = initHTB(json.load(f))
-        object.initialize()
+
+    if len(sys.argv) != 2:
+        help()
+        sys.exit(1)
+    elif len(sys.argv) == 2:
+        with open('config.json') as json_file:
+            config = json.load(json_file)
+
+        if sys.argv[1] == '-h':
+            help()
+            sys.exit(1)
+        elif sys.argv[1] == '-I':
+            print("REACHED IF CONDITION")
+            initHTB(config).create_directory()
+            sys.exit(1)
+        elif sys.argv[1] == '-i':
+            print(terminalColors.FAIL + "[-] Please provide the VHOST use -d flag" + terminalColors.ENDC)
+            sys.exit(1)
+        elif sys.argv[1] == '-d':
+            print(terminalColors.FAIL + "[-] Please provide the IP use -i flag" + terminalColors.ENDC)
+            sys.exit(1)
+        elif sys.argv[1] == '-i' and sys.argv[3] == '-d':
+            with open('config.json') as json_file:
+                config = json.load(json_file)
+            initHTB(config).initialize()
+            sys.exit(1)
+        else:
+            print(terminalColors.FAIL + "[-] Invalid argument" + terminalColors.ENDC)
+            help()
+            sys.exit(1)
+
 
         
