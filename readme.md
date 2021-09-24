@@ -20,4 +20,6 @@ Please fork, contribute and make a pull request. If you have any issues with thi
     - In `window 2` run `nmap scan` and `save the output`. - User can select the mode and can add modes too.
     - In `window 3` run `feroxbuster` or whichever. - user can select mode and can add modes too.
 
+---
 
+**NOTE** ALWAYS DOWNLOAD FROM RELEASES for using the tool. I won't guarantee cloning the repo will work for usage. As there are breaking changes pushed frequently. 
