@@ -20,6 +20,7 @@ print(terminalColors.FAIL + "(_)_ __ (_) |_  /\  /\/__   \/ __\\" + terminalColo
 print(terminalColors.FAIL + "| | '_ \| | __|/ /_/ /  / /\/__\//" + terminalColors.ENDC)
 print(terminalColors.FAIL + "| | | | | | |_/ __  /  / / / \/  \\" + terminalColors.ENDC)
 print(terminalColors.FAIL + "|_|_| |_|_|\__\/ /_/   \/  \_____/" + terminalColors.ENDC)
+print(terminalColors.FAIL + "                                  py" + terminalColors.ENDC)
 print("\n")
 
                                 
