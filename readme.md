@@ -1,5 +1,15 @@
 # initHTB.py
 
+```
+ _       _ _           _____  ___ 
+(_)_ __ (_) |_  /\  /\/__   \/ __\
+| | '_ \| | __|/ /_/ /  / /\/__\//
+| | | | | | |_/ __  /  / / / \/  \
+|_|_| |_|_|\__\/ /_/   \/  \_____/              
+
+```
+
+
 This script helps us to add IP, host name entry in hosts file and create directory and much more features coming up!
 
 # SETTING UP
