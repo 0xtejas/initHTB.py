@@ -23,7 +23,7 @@ class initHTB:
         self.config = config
         self.tmux = self.config['tmux']
         self.terminal = self.config['terminal']
-        self.parent_directory = self.config['parent_directory'].replace('\"$USER\"', 'kali')
+        self.parent_directory = self.config['parent_directory'].replace('\"$USER\"', os.environ['USER'])
         
         self.directory=input("Enter the Machine Name: ")
         self.ip=input("Enter the IP: ")
