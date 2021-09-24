@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
 
-import os
-import subprocess
-import json
-import sys 
+import argparse,json,subprocess,os 
 
 # TERMINAL COLORS - CODE FROM https://stackoverflow.com/a/287944/11561065
 class terminalColors:
@@ -18,95 +15,74 @@ class terminalColors:
     UNDERLINE = '\033[4m'
 
 
+print(terminalColors.FAIL + " _       _ _           _____  ___" + terminalColors.ENDC) 
+print(terminalColors.FAIL + "(_)_ __ (_) |_  /\  /\/__   \/ __\\" + terminalColors.ENDC)
+print(terminalColors.FAIL + "| | '_ \| | __|/ /_/ /  / /\/__\//" + terminalColors.ENDC)
+print(terminalColors.FAIL + "| | | | | | |_/ __  /  / / / \/  \\" + terminalColors.ENDC)
+print(terminalColors.FAIL + "|_|_| |_|_|\__\/ /_/   \/  \_____/" + terminalColors.ENDC)
+print("\n")
+
+                                
 
 class initHTB:
-    def __init__(self, config):
+    def __init__(self, config,IP,VHOST):
         self.config = config
         self.tmux = self.config['tmux']
         self.terminal = self.config['terminal']
         self.parent_directory = self.config['parent_directory'].replace('\"$USER\"', os.environ['USER'])
         
-        self.directory=input("Enter the Machine Name: ")
-        self.ip=input("Enter the IP: ")
+        self.VHOST=VHOST
+        self.IP=IP
     
     def initialize(self):
         try:
-            path = os.path.join(self.parent_directory,self.directory)
+            path = os.path.join(self.parent_directory,self.VHOST)
             os.mkdir(path)
-            print(terminalColors.SUCESS + "[+] Directory '% s' created" % self.directory + terminalColors.ENDC)
+            print(terminalColors.SUCESS + "[+] Directory '% s' created" % self.VHOST + terminalColors.ENDC)
 
         except OSError:
-            print(terminalColors.FAIL + "[-] Directory '% s' already exists" % self.directory + terminalColors.ENDC)
+            print(terminalColors.FAIL + "[-] Directory '% s' already exists" % self.VHOST + terminalColors.ENDC)
     
 
         with open('/etc/hosts','r') as file:
             content = file.read()
 
-            new_content = content.replace("\n\n",f"\n{self.ip}    {self.directory.lower()}.htb\n\n",1)
+            new_content = content.replace("\n\n",f"\n{self.IP}    {self.VHOST.lower()}.htb\n\n",1)
         try:
             with open('/etc/hosts','w') as file:
                 file.write(new_content)
 
-            print(terminalColors.SUCESS + f"[+] IP: {self.ip} and HOST: {self.directory.lower()}.htb is added to the file!" + terminalColors.ENDC)
+            print(terminalColors.SUCESS + f"[+] IP: {self.IP} and HOST: {self.VHOST.lower()}.htb is added to the file!" + terminalColors.ENDC)
         except:
             print(terminalColors.FAIL + "[-] Error while writing to file" + terminalColors.ENDC)
             print(terminalColors.FAIL + "[-] Please check the file permissions" + terminalColors.ENDC)
             print(terminalColors.INFO + "[*] try running sudo chown % s /etc/hosts and then run this script" %os.environ['USER'] + terminalColors.ENDC)
 
-    def create_directory(self):
-        try:
-            path = os.path.join(self.parent_directory,self.directory)
-            os.makedirs(path)
-            print(terminalColors.SUCESS + "[+] Hirearchy Created as per config.json" % self.directory + terminalColors.ENDC)
-            print(terminalColors.SUCESS + "[+] Directory '% s' created" % self.directory + terminalColors.ENDC)
-        except OSError:
-            print(terminalColors.FAIL + OSError + terminalColors.ENDC)
-
-def help():
-    print(terminalColors.INFO + """ 
-PRINTS THIS HELP MENU
-
-USAGE: python3 initHTB.py -i <IP> -d <VHOST>
-    -i <IP> : IP of the VHOST
-    -d <VHOST> : VHOST NAME
-    -h : Prints this help menu
-    -I : Initialize the initHTB.py script 
-         Creates a directory for HTB if it doesn't exist, as per default configurations.
-         To change the configurations, edit the config.json file    
-    """ + terminalColors.ENDC)
-
+def create_directory(config):
+    try:
+        path = config['parent_directory'].replace('\"$USER\"', os.environ['USER'])
+        os.makedirs(path)
+        print(terminalColors.SUCESS + "[+] Directory Created as per config.json"  + terminalColors.ENDC)
+    except OSError:
+        print(terminalColors.FAIL + OSError + terminalColors.ENDC)
 
 if __name__ == "__main__":
 
-    if len(sys.argv) != 2:
-        help()
-        sys.exit(1)
-    elif len(sys.argv) == 2:
-        with open('config.json') as json_file:
-            config = json.load(json_file)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-i", "--ip", help="IP of the VHOST")
+    parser.add_argument("-n", "--name", help="BOX NAME")
+    parser.add_argument("-I", "--initialize", help="Initialize the initHTB.py script", action='store_true')
+    args = parser.parse_args()
 
-        if sys.argv[1] == '-h':
-            help()
-            sys.exit(1)
-        elif sys.argv[1] == '-I':
-            print("REACHED IF CONDITION")
-            initHTB(config).create_directory()
-            sys.exit(1)
-        elif sys.argv[1] == '-i':
-            print(terminalColors.FAIL + "[-] Please provide the VHOST use -d flag" + terminalColors.ENDC)
-            sys.exit(1)
-        elif sys.argv[1] == '-d':
-            print(terminalColors.FAIL + "[-] Please provide the IP use -i flag" + terminalColors.ENDC)
-            sys.exit(1)
-        elif sys.argv[1] == '-i' and sys.argv[3] == '-d':
-            with open('config.json') as json_file:
-                config = json.load(json_file)
-            initHTB(config).initialize()
-            sys.exit(1)
-        else:
-            print(terminalColors.FAIL + "[-] Invalid argument" + terminalColors.ENDC)
-            help()
-            sys.exit(1)
+    if args.initialize:
+        with open('config.json') as file:
+            config = json.load(file)
+        create_directory(config)
+    elif bool(args.ip) ^ bool(args.name):
+        parser.error(terminalColors.FAIL + "--ip and --vhost must be used together" + terminalColors.ENDC)
 
-
-        
+    elif args.ip and args.name:
+        with open('config.json') as file:
+            config = json.load(file)
+        initHTB = initHTB(config,args.ip,args.name)
+        initHTB.initialize()
