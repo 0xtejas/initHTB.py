@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-import argparse,json,subprocess,os 
+import argparse,json,os
+import libtmux
 
 # TERMINAL COLORS - CODE FROM https://stackoverflow.com/a/287944/11561065
 class terminalColors:
@@ -41,9 +42,9 @@ class initHTB:
             os.mkdir(path)
             print(terminalColors.SUCESS + "[+] Directory '% s' created" % self.VHOST + terminalColors.ENDC)
 
-        except OSError:
+        except Exception as e:
             print(terminalColors.FAIL + "[-] Directory '% s' already exists" % self.VHOST + terminalColors.ENDC)
-    
+            print(e)
 
         with open('/etc/hosts','r') as file:
             content = file.read()
@@ -59,6 +60,34 @@ class initHTB:
             print(terminalColors.FAIL + "[-] Please check the file permissions" + terminalColors.ENDC)
             print(terminalColors.INFO + "[*] try running sudo chown % s /etc/hosts and then run this script" %os.environ['USER'] + terminalColors.ENDC)
 
+
+    def create_terminal_shell(self):
+        try:
+            # CREATE A TERMINAL SHELL 
+            print(terminalColors.INFO + "[+] Creating a terminal shell" + terminalColors.ENDC)
+            path = os.path.join(f'{self.parent_directory}',f'{self.VHOST}')
+            os.system(f"tmux new-session -t {self.VHOST} -d -c {path}")
+            tmux = libtmux.Server()
+            print(terminalColors.SUCESS + "[+] Terminal shell created" + terminalColors.ENDC)
+            print(terminalColors.INFO + "[+] Connecting to OPENVPN" + terminalColors.ENDC)
+            session = tmux.get_by_id('$0')
+            window = session.select_window(0)
+            pane = window.select_pane(0)
+            pane.send_keys(f"sudo openvpn ~/Downloads/lab_TheWeeknd.ovpn", enter=True)
+            print(terminalColors.SUCESS + "[+] OPENVPN CONNECTED" + terminalColors.ENDC)
+            
+            # pane = window.attached_panes()[0]
+            # pane.send_keys(f"cd {self.parent_directory}/{self.VHOST}")
+            # pane.send_keys('sudo openvpn ~/Downloads/lab_TheWeeknd.ovpn')
+
+
+            print(terminalColors.SUCESS + "[+] Terminal shell created!" + terminalColors.ENDC)
+        except Exception as e:
+            print(terminalColors.FAIL + "[-] Error while creating terminal shell" + terminalColors.ENDC)
+            print(e)
+
+
+
 def create_directory(config):
     try:
         path = config['parent_directory'].replace('\"$USER\"', os.environ['USER'])
@@ -66,6 +95,7 @@ def create_directory(config):
         print(terminalColors.SUCESS + "[+] Directory Created as per config.json"  + terminalColors.ENDC)
     except OSError:
         print(terminalColors.FAIL + OSError + terminalColors.ENDC)
+        print(OSError)
 
 if __name__ == "__main__":
 
@@ -87,3 +117,5 @@ if __name__ == "__main__":
             config = json.load(file)
         initHTB = initHTB(config,args.ip,args.name)
         initHTB.initialize()
+        # initHTB.create_terminal_shell()
+     
