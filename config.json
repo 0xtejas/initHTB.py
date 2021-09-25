@@ -1,17 +1,60 @@
 {
-    "parent_directory": "/home/\"$USER\"/Desktop/HTB/BOX",
-    "terminal": "Default",
-    "tmux":"True",
-    "nmap": {
-       "mode": {
-        "1":"nmap -sC -sV -vv -p- $IP -oN nmap.txt", 
-        "2":"nmap -sC -sV -vv $IP -oN nmap.txt"
+    "directory": [
+        {
+            "parentDirectory": "/home/\"$USER\"/Desktop/HTB/BOX"
+        },
+        {
+            "openvpnDirectory": "~/Downloads/lab_TheWeeknd.ovpn"
         }
-    },
-    "directory_scan": {
-        "Tool Name": "feroxbuster",
-        "mode": {
-            "1":"feroxbuster -u $URL -w /usr/share/seclists/Discovery/Web-Content/raft-small-words-lowercase.txt -x php,html,css,js  -s 200"
+
+    ],
+    "toolCommand": [
+        {
+            "nmap" : [
+                {
+                    "0" : "sudo nmap -sV -sC $VHOST -sS -oN nmap.txt"
+                },
+                {
+                    "1" : "sudo nmap -sV -sC -sS $VHOST -oN nmap.txt -p-"
+                }
+            ],
+            "directoryBruteForce" : [
+                {
+                    "Dirb": [
+                        {
+                            "1": "comand 1"
+                        },
+                        {
+                            "2": "comand 2"
+                        },
+                        {
+                            "3": "comand 3"
+                        }
+                    ],
+                    "ffuf": [
+                        {
+                            "1": "comand 1"
+                        },
+                        {
+                            "2": "comand 2"
+                        },
+                        {
+                            "3": "comand 3"
+                        }
+                    ],
+                    "feroxbuster": [
+                        {
+                            "1": "comand 1"
+                        },
+                        {
+                            "2": "comand 2"
+                        },
+                        {
+                            "3": "comand 3"
+                        }
+                    ]
+                }
+            ]
         }
-    }
+    ]
 }
