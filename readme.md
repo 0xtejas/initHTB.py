@@ -30,6 +30,13 @@ More commands will be available, as you create issue.
 
 Please fork, contribute and make a pull request. If you have any issues with this project, please feel free to create issue.
 
+
+# CREDITS
+
+Thanks to [Libtmux](https://github.com/tmux-python/libtmux) a python API for TMUX. Without which this project would not been easy to work with.
+
+
 ---
 
 **NOTE** ALWAYS DOWNLOAD FROM RELEASES for using the tool. I won't guarantee cloning the repo will work for usage. As there are breaking changes pushed frequently. 
+
