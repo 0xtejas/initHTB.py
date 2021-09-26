@@ -109,9 +109,9 @@ class initHTB:
     def terminalSession(self):
         self.session.attach_session()
 
-def create_directory():
+def create_directory(config):
     try:
-        path = ['directory'][0]['parentDirectory'].replace('\"$USER\"', os.environ['USER'])
+        path = config['directory'][0]['parentDirectory'].replace('\"$USER\"', os.environ['USER'])
         os.makedirs(path)
         print(terminalColors.SUCESS + "[+] Directory Created as per config.json"  + terminalColors.ENDC)
     except OSError:
