@@ -18,6 +18,10 @@ More commands will be available, as you create issue.
 1. You'll have to run this if you are not a root user `sudo chown $USER /etc/hosts`.
 2. There is a template `hosts` file along with this, **please maintain the structure**.
 
+```
+pip3 install -r requirement.txt 
+```
+
 # CONTRIBUTE
 
 Please fork, contribute and make a pull request. If you have any issues with this project, please feel free to create issue.
