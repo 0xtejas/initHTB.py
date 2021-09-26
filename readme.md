@@ -1,3 +1,4 @@
+[![CodeQL](https://github.com/cognizance-amrita/initHTB.py/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/cognizance-amrita/initHTB.py/actions/workflows/codeql-analysis.yml)
 # initHTB.py
 
 ```
