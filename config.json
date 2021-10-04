@@ -33,10 +33,10 @@
                     ],
                     "ffuf": [
                         {
-                            "1": "comand 1"
+                            "1": "ffuf -w /opt/SecLists/Discovery/DNS/subdomains-top1million-110000.txt -u http://$VHOST -H 'Host: FUZZ.$VHOST'"
                         },
                         {
-                            "2": "comand 2"
+                            "2": "ffuf -w /opt/SecLists/Discovery/Web-Content/raft-medium-words.txt -u http://$VHOST/FUZZ"
                         },
                         {
                             "3": "comand 3"
