@@ -22,10 +22,10 @@
                 {
                     "Dirb": [
                         {
-                            "1": "comand 1"
+                            "1": "dirb http://$VHOST"
                         },
                         {
-                            "2": "comand 2"
+                            "2": "dirb http://$VHOST /opt/SecLists/Discovery/Web-Content/raft-medium-words.txt -X .bak,.txt -o dirb.txt"
                         },
                         {
                             "3": "comand 3"
