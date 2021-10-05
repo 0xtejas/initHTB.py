@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suitable Title for your feature
+about: New Feature
 title: "[FEATURE REQUEST]"
 labels: ''
 assignees: ''
