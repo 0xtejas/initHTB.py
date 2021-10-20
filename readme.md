@@ -18,6 +18,36 @@ More commands will be available, as you create issue.
 
 1. You'll have to run this if you are not a root user `sudo chown $USER /etc/hosts`.
 2. There is a template `hosts` file along with this, **please maintain the structure**.
+3. *Optionally* create a virtualenv with `virtualenv . && . ./bin/activate`
+4. Install dependencies with `pip install -r requirements.txt`
+5. Run `python initHTB.py`
+# USAGE
+1. Edit `config.json` and set  the `parentDirectory` and `openvpnDirectory` keys to your desired working directory, and OpenVPN config path respectively.
+2. Run `python3 initHTB.py -I` to create the `parentDirectory` specified above. `$USER` in the path will be replaced with the current logged in username.
+3. Run `python3 initHTB-py -i <IP address> -n <name of HTB box>`. At least `-i` and `-n` must be provided. Optionally `-N` can be used to set the nmap command to run, specified in `config.json`.
+
+Run `python3 initHTB.py -h` for help
+```
+(_)_ __ (_) |_  /\  /\/__   \/ __\
+| | '_ \| | __|/ /_/ /  / /\/__\//
+| | | | | | |_/ __  /  / / / \/  \
+|_|_| |_|_|\__\/ /_/   \/  \_____/
+                                  py
+
+
+usage: initHTB.py [-h] [-i IP] [-n NAME] [-I] [-N] [-dN]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -i IP, --ip IP        IP of the VHOST
+  -n NAME, --name NAME  BOX NAME
+  -I, --initialize      Initialize the initHTB.py script
+  -N, --nmap            Enter the command number to run you can also add add multiple command numbers separated by comma Default command is set to 0.
+  -dN, --dnmap          To disable nmap scan
+
+```
+
+
 
 # SCREENSHOTS
 
